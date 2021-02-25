@@ -27,6 +27,7 @@ export default {
   },
   computed: {
   		name () {
+  			console.log(step)
   			if (this.step === 1){
   				return 'element1'
   			}
