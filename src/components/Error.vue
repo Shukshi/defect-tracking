@@ -23,10 +23,6 @@ export default {
   			}
   			this.current_error = ''
   		}
-  	},
-  	modify () {
-  		this.step = this.step + 1
-  		console.log(this.step)
   	}
   },
   computed: {
