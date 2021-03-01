@@ -9,10 +9,7 @@
 			<input type="update" value="Update"  @click="updateError()">
 		</div>
 		<div v-for="(error, index) in errors" :key="error"  class="element">
-		    <div :class="getClass()">
-		    	{{ error }}
-		    </div> 
-			<button @click="modify()"> Update </button> 
+		    	<SingleError :error="error" :step="step" />
 			<button @click="editError(index, error)"> Edit </button>   
 			<button @click="deleteError(index)">Delete</button> 
 		</div>
@@ -20,13 +17,15 @@
 </template>
 
 <script>
+import SingleError from "./SingleError.vue";
 export default {
-
+  components: {
+  	SingleError
+  },
   data () {
     return {
     	errors: [],
     	current_error: '',
-    	step: 0, 
     	isEditing: false,
     	selectedIndex: null
     }
@@ -40,22 +39,7 @@ export default {
   			this.current_error = ''
   		}
   	},
-    modify () {
-    	this.step = this.step + 1
-    	if(this.step > 3){
-    		this.step = 1
-    	}
-    },
-  	getClass () {
-  		console.log(this.step)
-  		if(this.step === 1){
-  			return 'element1'
-  		}
-  		if(this.step == 2){
-  			return 'element2'
-  		}
-  		else return 'element3'
-  	},
+    
     editError (index, error) {
     	this.current_error = error
     	this.selectedIndex = index
