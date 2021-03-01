@@ -1,7 +1,21 @@
 <template>
 	<div class="container">
-	<input type="text" v-model="current_error" @keyup.alt="addError">
-	<div v-for="error in errors" :key="error" class="element" @click="modify()">  {{error}} </div>
+		<div v-if="!isEditing">
+			<input type="text" v-model="current_error" >
+			<input type="submit" value="Submit" @click="addError()">
+		</div>
+		<div v-else>
+			<input type="text" v-model="current_error" >
+			<input type="update" value="Update"  @click="updateError()">
+		</div>
+		<div v-for="(error, index) in errors" :key="error"  class="element">
+		    <div :class="getClass()">
+		    	{{ error }}
+		    </div> 
+			<button @click="modify()"> Update </button> 
+			<button @click="editError(index, error)"> Edit </button>   
+			<button @click="deleteError(index)">Delete</button> 
+		</div>
     </div>
 </template>
 
@@ -12,33 +26,50 @@ export default {
     return {
     	errors: [],
     	current_error: '',
-    	step: 0 
+    	step: 0, 
+    	isEditing: false,
+    	selectedIndex: null
     }
   },
   methods: {
-  	addError (e) {
-  		if (e.key === ',' && this.current_error){
+  	addError () {
+  		if (this.current_error){
   			if(!this.errors.includes(this.current_error)){
   				this.errors.push(this.current_error)
   			}
   			this.current_error = ''
   		}
-  	}
-  },
-  computed: {
-  		name () {
-  			console.log(step)
-  			if (this.step === 1){
-  				return 'element1'
-  			}
-  			if (this.step === 2){
-  				return 'element2'
-  			}
-  			return 'element3'
-
-
+  	},
+    modify () {
+    	this.step = this.step + 1
+    	if(this.step > 3){
+    		this.step = 1
+    	}
+    },
+  	getClass () {
+  		console.log(this.step)
+  		if(this.step === 1){
+  			return 'element1'
   		}
-  	}
+  		if(this.step == 2){
+  			return 'element2'
+  		}
+  		else return 'element3'
+  	},
+    editError (index, error) {
+    	this.current_error = error
+    	this.selectedIndex = index
+    	this.isEditing = true
+    },
+    deleteError (index) {
+    	this.errors.splice(index, 1)
+    },
+    updateError () {
+    	this.errors.splice(this.selectedIndex, 1, this.current_error)
+    	this.isEditing = false
+    	this.current_error = ''
+    }
+  }
 }
 </script>
 
