@@ -4,15 +4,18 @@
 			<input type="text" v-model="current_error" >
 			<input type="submit" value="Submit" @click="addError()">
 		</div>
+
 		<div v-else>
 			<input type="text" v-model="current_error" >
 			<input type="update" value="Update"  @click="updateError()">
 		</div>
-		<div v-for="(error, index) in errors" :key="error"  class="element">
-		    	<SingleError :error="error" :step="step" />
+		<input type="text" v-model="search" placeholder="Search Errors">
+		<div v-for="(error, index) in filteredErrors" :key="error" class="element">
+		    <SingleError :error="error" :step="step" />
 			<button @click="editError(index, error)"> Edit </button>   
 			<button @click="deleteError(index)">Delete</button> 
 		</div>
+		
     </div>
 </template>
 
@@ -27,7 +30,8 @@ export default {
     	errors: [],
     	current_error: '',
     	isEditing: false,
-    	selectedIndex: null
+    	selectedIndex: null,
+    	search: ''
     }
   },
   methods: {
@@ -52,8 +56,16 @@ export default {
     	this.errors.splice(this.selectedIndex, 1, this.current_error)
     	this.isEditing = false
     	this.current_error = ''
-    }
+    }  
+  },
+  computed: {
+  	filteredErrors: function() {
+  		return this.errors.filter((error) => {
+  			return error.toLowerCase().match(this.search.toLowerCase())
+  		})
+  	}
   }
+  
 }
 </script>
 

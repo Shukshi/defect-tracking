@@ -15,7 +15,6 @@ export default {
   },
   methods: {
   	getClass () {
-  		console.log(this.step)
   		if(this.step === 1){
   			return 'element1'
   		}
