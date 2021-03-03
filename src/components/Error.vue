@@ -1,20 +1,20 @@
 <template>
 	<div class="container">
 		<div v-if="!isEditing">
-			<input type="text" v-model="current_error" >
-			<input type="submit" value="Submit" @click="addError()">
+			<input type="text" v-model="current_error" placeholder="Add error.." class="add">
+			<button  @click="addError()" class="submitButton"> Submit </button>
 		</div>
 
 		<div v-else>
-			<input type="text" v-model="current_error" >
-			<input type="update" value="Update"  @click="updateError()">
+			<input type="text" v-model="current_error" class="add">
+			<button @click="updateError()" class="submitButton"> Update </button>
 		</div>
-		<input type="text" v-model="search" placeholder="Search Errors">
 		<div v-for="(error, index) in filteredErrors" :key="error" class="element">
-		    <SingleError :error="error" :step="step" />
-			<button @click="editError(index, error)"> Edit </button>   
-			<button @click="deleteError(index)">Delete</button> 
+		    <SingleError :error="error"  /> 
+		    <button @click="editError(index, error)" class="edit"> Edit </button>   
+			<button @click="deleteError(index)" class="delete">Del</button> 
 		</div>
+		<input type="text" v-model="search" placeholder="Search Errors" class="search">
 		
     </div>
 </template>
@@ -75,39 +75,93 @@ export default {
 	max-width: 420px;
 	margin: 30px auto;
 	background: white;
-	padding: 40px;
+	padding: 20px;
 	border-radius: 10px;
+	height: auto;
 }
-   input{
-   	display: block;
-	padding: 10px 6px;
-	width: 50%;
-	box-sizing: border-box;
+.edit{
+	position: relative;
+	text-align: center;
+	float: right;
+	width: 10%;
+	height: 20px;
+	margin: 0 5px 0 5px;
+	bottom: 2px;
+	background-color: #4DC1E5;
+	color: white;
 	border: none;
-	border-bottom: 1px solid #ddd;
-	color: #555;
-	margin-right: auto;
-    margin-left: auto;
-   }
-   .element{
-	 margin: 20px 10px 0 0;
-	 padding: 6px 12px;
-	 background: #eee;
-	 border-radius: 20px;
-	 font-size: 12px;
-	 letter-spacing: 1px;
-	 font-weight: bold;
-	 color: #777;
-	 cursor: pointer;
-
-   }
-   .element1{
-   	color: pink;
-   }
-   .element2{
-   	color: green;
-   }
-   .element3{
-   	color: red;
-   }
+	border-radius: 10px;
+	cursor: pointer;
+	clear: top;
+}
+.delete{
+	position: relative;
+	text-align: center;
+	float: right;
+	width: 10%;
+	height: 20px;
+	margin: 0 5px 0 5px;
+	bottom: 2px;
+	background-color: #4DC1E5;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	clear: top;
+}
+.add{
+	text-align: center;
+	width: 65%;
+	height: 35px;
+	border-radius: 20px;
+	border-color: white;
+}
+.submitButton{
+	position: relative;
+	right: 0px;
+	width: 20%;
+	height: 35px;
+	background-color: #4DC1E5;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	margin: 20px 20px 0 0 ;
+}
+.element{
+    margin: 40px 0 20px 0;
+    height: 35px;
+	padding: 6px 6px 0 6px;
+	background: #eee;
+	border-radius: 20px;
+	font-size: 12px;
+	letter-spacing: 1px;
+	font-weight: bold;
+	color: #777;
+	top: 300px;
+	text-align: center;
+	overflow-y: auto;
+}
+.element1{
+   	color: #6E7B7F;
+   	font-size: 12px;
+}
+.element2{
+   	color: #6E7B7F;
+   	text-shadow: 0.5px 0.5px #067192;
+   	font-size: 12px;
+}
+.element3{
+   	color: #6E7B7F;
+   	text-decoration: line-through;
+   	font-size: 12px;
+}
+.search{
+	text-align: center;
+	width: 100%;
+	height: 35px;
+	border-radius: 20px;
+	border-color: white;
+	margin: 20px 0 20px 0;
+}
 </style>
