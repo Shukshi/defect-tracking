@@ -1,9 +1,8 @@
 <template>
-	<div :class="getClass()" class="cont"> 
-		{{ error }} 
-		<div>
+	<div :class="getClass()" class="cont">
+		<div class ="buttons">
 			<button @click="modify()" v-if="one" class="mark"> Open </button>
-			<button @click="modify()" v-if="two" class="mark"> In-progress </button>
+			<button @click="modify()" v-if="two" class="mark"> InProgress </button>
 			<button @click="modify()" v-if="three" class="mark"> Completed </button>
 		</div>
 		
@@ -52,13 +51,16 @@ export default {
 
 <style lang="css" scoped>
 .cont{
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
 	position: relative;
 	text-align: center;
+	padding: 10px;
 }
 .mark{
 	position: relative;
 	text-align: center;
-	float: right;
 	width: auto;
 	height: 20px;
 	bottom: 3px;
@@ -69,6 +71,5 @@ export default {
 	border: none;
 	border-radius: 10px;
 	cursor: pointer;
-	clear: top;
 }
 </style>
