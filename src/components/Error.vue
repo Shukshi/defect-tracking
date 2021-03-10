@@ -2,41 +2,45 @@
 	<div class="container">
 		<div class="input">
 			<input type="text" v-model="current_error" placeholder="Add error.." class="add">
-			<button v-if="!isEditing" @click="addError()" class="submitButton"> Submit </button>
-			<button v-else @click="updateError()" class="submitButton"> Update </button>
+			<button @click="addError()" class="submitButton"> Submit </button>
 		</div>
 		<div class="input">
 			<input type="text" v-model="search" placeholder="Search Errors" class="add">
 		</div>
-		<div v-for="(error, index) in filteredErrors" :key="error" class="element">
-			<div class = "text">
-				{{ error }}
+		<div v-for="(error, index) in filteredErrors" :key="error" >
+			<div v-if="!edits[index]" class="element">
+				<div  class = "text">
+					{{ error }}
+				</div>
+				<div class="allbut">
+					<StatusButton :error="error" />
+		    		<img class="buttons" src="../assets/edit.svg" @click="editError(index, error)">  
+					<img class="buttons" src="../assets/trash-2.svg" @click="deleteError(index)">
+				</div> 
 			</div>
-			<div class="allbut">
-				<SingleError :error="error" />
-		    	<img class="buttons" src="../assets/edit.svg" @click="editError(index, error)">  
-				<img class="buttons" src="../assets/trash-2.svg" @click="deleteError(index)">
-			</div> 
-
+			<div v-else class = "edit_element"> 
+				<input v-model="edit_error" class="edited">
+				<button class="update_buttons" @click= "updateError(index)">Update</button>
+			</div>
 		</div>
-		
-		
     </div>
 </template>
 
 <script>
-import SingleError from "./SingleError.vue";
+import StatusButton from "./StatusButton.vue";
 export default {
   components: {
-  	SingleError
+  	StatusButton
   },
   data () {
     return {
     	errors: [],
+    	edits: [],
     	current_error: '',
-    	isEditing: false,
     	selectedIndex: null,
-    	search: ''
+    	search: '',
+    	edit_error: '',
+    	isEditing: false
     }
   },
   methods: {
@@ -44,23 +48,26 @@ export default {
   		if (this.current_error){
   			if(!this.errors.includes(this.current_error)){
   				this.errors.push(this.current_error)
+  				this.edits.push(false)
   			}
   			this.current_error = ''
   		}
   	},
-    
     editError (index, error) {
-    	this.current_error = error
+    	this.edit_error = error
     	this.selectedIndex = index
     	this.isEditing = true
+    	this.edits[index] = true
+    	console.log(this.isEditing)
     },
     deleteError (index) {
     	this.errors.splice(index, 1)
     },
-    updateError () {
-    	this.errors.splice(this.selectedIndex, 1, this.current_error)
-    	this.isEditing = false
-    	this.current_error = ''
+    updateError (index) {
+    	this.errors.splice(this.selectedIndex, 1, this.edit_error)
+    	this.edits[index] = false
+    	this.edit_error = ''
+
     }  
   },
   computed: {
@@ -141,7 +148,35 @@ export default {
 	height: 15px;
 	cursor: pointer;
 }
-.text{
-	text-align: left;
+.edit_element{
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	background: #eee;
+	width: auto;
+	margin: 10px;
+}
+.edited{
+	background: #eee;
+	border-color: #eee;
+	height: 30px;
+	width: 100%;
+	box-shadow: none;
+	border:1px;
+	solid: #eee;
+	color: #6E7B7F;
+}
+.update_buttons{
+	position: relative;
+	text-align: center;
+	width: auto;
+	height: 20px;
+	margin: 5px;
+	background-color: #4DC1E5;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+
 }
 </style>
