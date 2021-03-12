@@ -50,26 +50,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.cont{
-	display: flex;
-	flex-wrap: nowrap;
-	justify-content: space-between;
-	position: relative;
-	text-align: center;
-	padding: 10px;
-}
-.mark{
-	position: relative;
-	text-align: center;
-	width: auto;
-	height: 20px;
-	bottom: 3px;
-	margin: 2px 5px 0px 5px;
-	border-bottom: 20px;
-	background-color: #4DC1E5;
-	color: white;
-	border: none;
-	border-radius: 10px;
-	cursor: pointer;
-}
+@import '../assets/Styles/StatusButton.css'
 </style>
