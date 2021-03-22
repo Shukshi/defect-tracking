@@ -67,10 +67,16 @@ export default {
   },
   watch: {
     search: {
-      handler(search) {
-        this.setErrorsDebounced(search)
+      handler() {
+        this.setErrorsDebounced(2000)
       },
       immediate: true
+    },
+    current_error: {
+      handler() {
+        this.addErrorsDebounced()
+      },
+      immediate: true 
     }
   },
   methods: {
@@ -94,7 +100,12 @@ export default {
       this.filteredErrors = this.errors.filter((error) => {
         return error.toLowerCase().match(this.search.toLowerCase())
       })
-    }, 500),
+    }, 2000),
+    addErrorsDebounced: debounce(function() {
+      this.filteredErrors = this.errors.filter((error) => {
+        return error.toLowerCase().match(this.search.toLowerCase())
+      })
+    }, 0),
     deleteError(index) {
       this.errors.splice(index, 1);
     },
