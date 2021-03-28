@@ -6,6 +6,7 @@
         v-model="current_error"
         placeholder="Add error.."
         class="add"
+        id="addID"
       />
       <button @click="addError()" class="submitButton">Submit</button>
     </div>
@@ -19,7 +20,7 @@
     </div>
     <div v-for="(error, index) in filteredErrors" :key="error">
       <div v-if="!edits[index]" class="element">
-        <div class="text">
+        <div class="listError">
           {{ error }}
         </div>
         <div class="allbut">

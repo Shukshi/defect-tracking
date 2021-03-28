@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit --watch",
+    "test:unit": "vue-cli-service test:unit --watch ",
     "lint": "vue-cli-service lint",
     "test": "jest"
   },
@@ -31,9 +31,6 @@
     "vue-jest": "^5.0.0-0"
   },
   "jest": {
-    "moduleNameMapper": {
-      "^vue$": "vue/dist/vue.common.js"
-    },
     "moduleFileExtensions": [
       "js",
       "vue"
