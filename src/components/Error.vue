@@ -13,9 +13,11 @@
     <div class="input">
       <input
         type="text"
-        v-model="search"
+        v-model="temporarySearch"
         placeholder="Search Errors"
         class="add"
+        id="searchError"
+        @keyup = "delayedSearch()"
       />
     </div>
     <div v-for="(error, index) in filteredErrors" :key="error">
@@ -27,11 +29,13 @@
           <StatusButton :error="error" />
           <img
             class="buttons"
+            id="editButton"
             src="../assets/Logo/edit.svg"
             @click="editError(index, error)"
           />
           <img
             class="buttons"
+            id="deleteButton"
             src="../assets/Logo/trash-2.svg"
             @click="deleteError(index)"
           />
@@ -49,7 +53,6 @@
 
 <script>
 import StatusButton from "./StatusButton.vue";
-import { debounce } from "lodash";
 export default {
   components: {
     StatusButton
@@ -60,25 +63,12 @@ export default {
       edits: [],
       current_error: "",
       selectedIndex: null,
-      search: "",
+      temporarySearch: "",
       edit_error: "",
       isEditing: false,
-      filteredErrors: []
+      finalSearch: "",
+      debounceTimeoutIdentifier: null,
     };
-  },
-  watch: {
-    search: {
-      handler() {
-        this.setErrorsDebounced(2000)
-      },
-      immediate: true
-    },
-    current_error: {
-      handler() {
-        this.addErrorsDebounced()
-      },
-      immediate: true 
-    }
   },
   methods: {
     addError() {
@@ -97,16 +87,6 @@ export default {
       this.edits[index] = true;
       console.log(this.isEditing);
     },
-    setErrorsDebounced: debounce(function() {
-      this.filteredErrors = this.errors.filter((error) => {
-        return error.toLowerCase().match(this.search.toLowerCase())
-      })
-    }, 2000),
-    addErrorsDebounced: debounce(function() {
-      this.filteredErrors = this.errors.filter((error) => {
-        return error.toLowerCase().match(this.search.toLowerCase())
-      })
-    }, 0),
     deleteError(index) {
       this.errors.splice(index, 1);
     },
@@ -114,6 +94,19 @@ export default {
       this.errors.splice(this.selectedIndex, 1, this.edit_error);
       this.edits[index] = false;
       this.edit_error = "";
+    },
+    delayedSearch () {
+      clearTimeout(this.debounceTimeoutIdentifier)
+      this.debounceTimeoutIdentifier = setTimeout(() => {
+        this.finalSearch = this.temporarySearch;
+      }, 2000);
+    }
+  },
+  computed: {
+    filteredErrors: function() {
+      return this.errors.filter((error) => {
+        return error.toLowerCase().match(this.finalSearch.toLowerCase())
+      })
     }
   }
 };
