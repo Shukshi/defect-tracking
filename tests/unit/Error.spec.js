@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import Error from "@/components/Error.vue";
+import { nextTick } from 'vue';
 jest.useFakeTimers();
 
 test("testErrorComponent", async() => {
@@ -30,13 +31,14 @@ test("testErrorComponent", async() => {
 	const editedElement = wrapper.get('.listError')
 	expect(editedElement.text()).toBe('edited_testcase')
 
+
 	//For deleting
 	await wrapper.get('#deleteButton').trigger('click')
 	expect(wrapper.findAll('.listError')).toHaveLength(0)
 
 	//For search
 	//Adding more elements, for getting result for search
-	/*await wrapper.get('#addID').setValue('testcase1')
+	await wrapper.get('#addID').setValue('testcase1')
   	await wrapper.get('.submitButton').trigger('click')
 
   	await wrapper.get('#addID').setValue('testcase2')
@@ -48,8 +50,8 @@ test("testErrorComponent", async() => {
   	expect(wrapper.findAll('.listError')).toHaveLength(3)
 
   	await wrapper.get('#searchError').setValue('testcase3')
+  	await wrapper.get('#searchError').element.dispatchEvent(new KeyboardEvent('keyup'))
   	jest.advanceTimersByTime(3000)
-  	await expect(wrapper.findAll('.listError')).toHaveLength(1)*/
-
-
+  	await nextTick()
+  	expect(wrapper.findAll('.listError')).toHaveLength(1)
 });
