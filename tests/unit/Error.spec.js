@@ -10,20 +10,6 @@ test("testErrorComponent", async() => {
 	const errorElement = wrapper.get('.listError')
 	expect(errorElement.text()).toBe('testcase1')
 
-
-	//For StatusButton
-	const openStatus = wrapper.get('.mark')
-	expect(openStatus.text()).toBe('Open')
-
-	await wrapper.get('.mark').trigger('click')
-	const inprogressStatus = wrapper.get('.mark')
-	expect(inprogressStatus.text()).toBe('InProgress')
-
-	await wrapper.get('.mark').trigger('click')
-	const closedStatus = wrapper.get('.mark')
-	expect(closedStatus.text()).toBe('Closed')
-
-
 	//For editing
 	await wrapper.get('#editButton').trigger('click')
 	await wrapper.get('.edited').setValue('edited_testcase')
